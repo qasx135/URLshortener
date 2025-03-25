@@ -2,11 +2,11 @@ version: '3.5'
 
 services:
   postgres:
-    container_name: url_shortener_postgres
+    container_name: cont-name
     image: postgres
     environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: 1234
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
       PGDATA: /data/postgres
     volumes:
       - postgres:/data/postgres
