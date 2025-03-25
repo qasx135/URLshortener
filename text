@@ -1,0 +1,11 @@
+create table url
+(
+    id    integer
+        constraint id
+            primary key,
+    alias text not null,
+    url   text not null
+);
+
+create index idx_alias
+    on url(alias);
