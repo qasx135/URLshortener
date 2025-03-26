@@ -10,10 +10,10 @@ import (
 )
 
 type Config struct {
-	Env            string                  `yaml:"env" env-default:"local" env-required:"true"`
-	StoragePath    string                  `yaml:"storage_path" env:"STORAGE_PATH" env-required:"true"`
-	HTTPServer     HTTPServer              `yaml:"http_server" env:"HTTP_SERVER" env-required:"true"`
-	PostgresConfig postgres.PostgresConfig `yaml:"postgres_config" env:"POSTGRES_CONFIG" env-required:"true"`
+	Env            string          `yaml:"env" env-default:"local" env-required:"true"`
+	StoragePath    string          `yaml:"storage_path" env:"STORAGE_PATH" env-required:"true"`
+	HTTPServer     HTTPServer      `yaml:"http_server" env:"HTTP_SERVER" env-required:"true"`
+	PostgresConfig postgres.Config `yaml:"postgres_config" env:"POSTGRES_CONFIG" env-required:"true"`
 }
 
 type HTTPServer struct {

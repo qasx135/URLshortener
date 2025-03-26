@@ -2,17 +2,17 @@ version: '3.5'
 
 services:
   postgres:
-    container_name: url_shortener_db
+    container_name: test
     image: postgres
     environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: 1234
-      POSTGRES_DB: url_shortener_db
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: test
       PGDATA: /data/postgres
     volumes:
       - postgres:/data/postgres
     ports:
-      - "5432:5432"
+      - "test:test"
     restart: unless-stopped
 volumes:
   postgres:

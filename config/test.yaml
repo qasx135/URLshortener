@@ -1,0 +1,12 @@
+env: "local"
+storage_path: "./storage/storage.db"
+http_server:
+  address: "test:test"
+  timeout: 4s
+  idle_timeout: 60s
+postgres_config:
+  host: "test"
+  port: "test"
+  username: "test"
+  password: "test"
+  database: "test"

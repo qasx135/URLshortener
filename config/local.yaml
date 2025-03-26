@@ -9,4 +9,4 @@ postgres_config:
   port: "5432"
   username: "root"
   password: "1234"
-  database: "postgres"
+  database: "url_shortener_db"
