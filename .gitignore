@@ -1,2 +1,3 @@
 docker-compose.yml
 ./config/local.yaml
+.idea
