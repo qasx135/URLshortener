@@ -32,17 +32,18 @@ func New(ctx context.Context, config Config) (*pgx.Conn, error) {
 }
 
 func PrepareTables(ctx context.Context, conn *pgx.Conn) {
-	queryText := `create table if not exists url
+	queryText := `create table urls_table
 (
-    id serial
-        constraint id
+    id    serial not null
+        constraint urls_table_pk
             primary key,
-    url   text not null,
-    alias text not null
-);
-
-create index if not exists idx_alias
-    on url(alias);`
+    url   text   not null
+        constraint urls_table_pk_2
+            unique,
+    alias text   not null
+        constraint urls_table_pk_3
+            unique
+);`
 
 	_, err := conn.Exec(ctx, queryText)
 	if err != nil {

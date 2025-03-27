@@ -5,21 +5,15 @@ import (
 	"github.com/joho/godotenv"
 	"log"
 	"os"
-	"time"
+	http_server "url-shortener/internal/transport/http-server"
 	"url-shortener/pkg/postgres"
 )
 
 type Config struct {
-	Env            string          `yaml:"env" env-default:"local" env-required:"true"`
-	StoragePath    string          `yaml:"storage_path" env:"STORAGE_PATH" env-required:"true"`
-	HTTPServer     HTTPServer      `yaml:"http_server" env:"HTTP_SERVER" env-required:"true"`
-	PostgresConfig postgres.Config `yaml:"postgres_config" env:"POSTGRES_CONFIG" env-required:"true"`
-}
-
-type HTTPServer struct {
-	Addr        string        `yaml:"address" env:"HTTP_ADDR" env-default:"localhost:8080" env-required:"true"`
-	TimeOut     time.Duration `yaml:"timeout" env:"HTTP_TIMEOUT" env-default:"4s"`
-	IdleTimeout time.Duration `yaml:"idle_timeout" env:"HTTP_IDLE_TIMEOUT" env-default:"60s"`
+	Env            string             `yaml:"env" env-default:"local" env-required:"true"`
+	StoragePath    string             `yaml:"storage_path" env:"STORAGE_PATH" env-required:"true"`
+	PostgresConfig postgres.Config    `yaml:"postgres_config" env:"POSTGRES_CONFIG" env-required:"true"`
+	RouterConfig   http_server.Config `yaml:"router_config" env:"ROUTER_CONFIG" env-required:"true"`
 }
 
 func NewConfig() *Config {

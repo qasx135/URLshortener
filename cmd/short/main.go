@@ -2,10 +2,11 @@ package main
 
 import (
 	"context"
-	"url-shortener/internal/URL/model"
 	URLrepository "url-shortener/internal/URL/repository"
 	URLservice "url-shortener/internal/URL/service"
 	"url-shortener/internal/config"
+	http_server "url-shortener/internal/transport/http-server"
+	"url-shortener/internal/transport/http-server/url-handlers"
 	"url-shortener/pkg/logger"
 	"url-shortener/pkg/postgres"
 )
@@ -20,17 +21,14 @@ func main() {
 
 	repo := URLrepository.NewRepository(db)
 	myService := URLservice.NewService(repo)
-
-	testModel := model.URLModel{
-		Url:   "https://google.com",
-		Alias: "google",
-	}
-	err := myService.Create(ctx, &testModel)
-	if err != nil {
-		return
+	if myService == nil {
+		logger.GetLoggerFromCtx(ctx).Info(ctx, "Failed to initialize service")
 	}
 
 	//TODO: init router
+	handler := url_handlers.NewHandler(myService, ctx)
+	router := http_server.NewRouter(cfg.RouterConfig, handler)
+	router.Run(cfg.RouterConfig, router)
 
 	//TODO: init server
 }
