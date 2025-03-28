@@ -60,8 +60,9 @@ func (r *Repository) GetOne(ctx context.Context, alias string) (model.URLModel, 
 	err := r.db.QueryRow(ctx, q, alias).Scan(&url.ID, &url.Url, &url.Alias)
 	if err != nil {
 		logger.GetLoggerFromCtx(ctx).Info(ctx, "No data with the given alias")
-		return model.URLModel{}, nil
+		//return model.URLModel{}, nil
 	}
+	fmt.Println(url)
 	return url, nil
 }
 

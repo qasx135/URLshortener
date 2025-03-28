@@ -28,6 +28,8 @@ func NewRouter(cfg Config, h *url_handlers.Handler) *Router {
 	r.Use(middleware.Recoverer)
 	r.Use(middleware.URLFormat)
 	r.Post("/url", h.Create)
+	r.Get("/url/all-urls", h.Get)
+	r.Get("/url/{alias}", h.GetOne)
 	return &Router{config: cfg, Router: r, Handler: *h}
 }
 
