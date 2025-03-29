@@ -30,7 +30,7 @@ type Service interface {
 	Create(ctx context.Context, URL *model.URLModel) error
 	Get(ctx context.Context) ([]model.URLModel, error)
 	GetOne(ctx context.Context, alias string) (model.URLModel, error)
-	Update(ctx context.Context, id int, URL string, alias string) error
+	Update(ctx context.Context, id string, alias string) error
 	Delete(ctx context.Context, id string) error
 }
 
@@ -93,5 +93,22 @@ func (h *Handler) GetOne(w http.ResponseWriter, r *http.Request) {
 	}
 	render.JSON(w, r, url)
 }
-func (h *Handler) Update(w http.ResponseWriter, r *http.Request) {}
+
+func (h *Handler) Update(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
+	if id == "" {
+		render.JSON(w, r, "No such id found")
+		return
+	}
+	var req Request
+	err := render.DecodeJSON(r.Body, &req)
+	if err != nil {
+		render.JSON(w, r, response.Error("Failed to decode request body"))
+	}
+
+	err = h.service.Update(h.Ctx, id, req.Alias)
+	if err != nil {
+		logger.GetLoggerFromCtx(h.Ctx).Info(h.Ctx, "Failed to update url", zap.String("url", req.URL), zap.Error(err))
+	}
+}
 func (h *Handler) Delete(w http.ResponseWriter, r *http.Request) {}

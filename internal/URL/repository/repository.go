@@ -55,6 +55,7 @@ func (r *Repository) Get(ctx context.Context) ([]model.URLModel, error) {
 }
 
 func (r *Repository) GetOne(ctx context.Context, alias string) (model.URLModel, error) {
+
 	q := `SELECT id, url, alias FROM urls_table WHERE ALIAS = $1`
 	var url model.URLModel
 	err := r.db.QueryRow(ctx, q, alias).Scan(&url.ID, &url.Url, &url.Alias)
@@ -66,10 +67,9 @@ func (r *Repository) GetOne(ctx context.Context, alias string) (model.URLModel, 
 	return url, nil
 }
 
-func (r *Repository) Update(ctx context.Context, id int, URL string, alias string) error {
-	q := `UPDATE urls_table SET url = $1, alias = $2 WHERE id = $3`
-	//_, err := r.db.Query(ctx, q, URL, alias, id)
-	commandTag, err := r.db.Exec(ctx, q, URL, alias, id)
+func (r *Repository) Update(ctx context.Context, id string, alias string) error {
+	q := `UPDATE urls_table SET alias = $1 WHERE id = $2`
+	commandTag, err := r.db.Exec(ctx, q, alias, id)
 	if err != nil {
 		return fmt.Errorf("failed to execute update query: %w", err)
 	}

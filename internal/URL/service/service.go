@@ -9,7 +9,7 @@ type Repository interface {
 	Create(ctx context.Context, URL *model.URLModel) error
 	Get(ctx context.Context) ([]model.URLModel, error)
 	GetOne(ctx context.Context, alias string) (model.URLModel, error)
-	Update(ctx context.Context, id int, URL string, alias string) error
+	Update(ctx context.Context, id string, alias string) error
 	Delete(ctx context.Context, id string) error
 }
 
@@ -30,8 +30,8 @@ func (s *Service) Get(ctx context.Context) ([]model.URLModel, error) {
 func (s *Service) GetOne(ctx context.Context, alias string) (model.URLModel, error) {
 	return s.repo.GetOne(ctx, alias)
 }
-func (s *Service) Update(ctx context.Context, id int, URL string, alias string) error {
-	return s.repo.Update(ctx, id, URL, alias)
+func (s *Service) Update(ctx context.Context, id string, alias string) error {
+	return s.repo.Update(ctx, id, alias)
 }
 func (s *Service) Delete(ctx context.Context, id string) error {
 	return s.repo.Delete(ctx, id)

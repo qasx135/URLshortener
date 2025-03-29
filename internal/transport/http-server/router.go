@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/rs/cors"
 	"net/http"
 	"time"
 	"url-shortener/internal/transport/http-server/url-handlers"
@@ -23,13 +24,22 @@ type Router struct {
 }
 
 func NewRouter(cfg Config, h *url_handlers.Handler) *Router {
+	cs := cors.New(cors.Options{
+		AllowedOrigins:   []string{"http://localhost:5173"},                   // Укажите разрешённые источники (фронт)
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}, // Разрешённые методы
+		AllowedHeaders:   []string{"Content-Type", "Authorization"},           // Разрешённые заголовки
+		AllowCredentials: true,                                                // Если нужны cookies или токены
+	})
+
 	r := chi.NewRouter()
 	r.Use(middleware.RequestID)
 	r.Use(middleware.Recoverer)
 	r.Use(middleware.URLFormat)
+	r.Use(cs.Handler)
 	r.Post("/url", h.Create)
 	r.Get("/url/all-urls", h.Get)
 	r.Get("/url/{alias}", h.GetOne)
+	r.Put("/url/{id}", h.Update)
 	return &Router{config: cfg, Router: r, Handler: *h}
 }
 
